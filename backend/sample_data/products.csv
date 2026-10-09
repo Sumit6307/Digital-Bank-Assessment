@@ -1,0 +1,21 @@
+product_id,product_name,category,unit_cost,unit_price,stock_quantity,supplier
+PRD-101,Smartphone Pro,Electronics,291.35,371.11,296,Nexus Global
+PRD-102,UltraBook 15,Electronics,108.21,210.97,573,Apex Logistics
+PRD-103,Wireless Earbuds,Electronics,269.82,345.42,110,Nexus Global
+PRD-104,4K Gaming Monitor,Electronics,112.37,204.73,589,Nexus Global
+PRD-105,Smartwatch Series 5,Electronics,325.05,622.88,444,Nexus Global
+PRD-106,Ergonomic Desk Chair,Furniture,207.65,314.44,21,Nexus Global
+PRD-107,Standing Desk 60in,Furniture,317.18,499.0,174,Nexus Global
+PRD-108,Bookshelf Modern,Furniture,431.17,676.84,109,Vanguard Mfg
+PRD-109,Executive Recliner,Furniture,52.56,108.02,285,Apex Logistics
+PRD-110,Conference Table,Furniture,331.08,582.51,402,Apex Logistics
+PRD-111,Gel Pen Box (24pk),Office Supplies,252.9,515.39,385,Horizon Direct
+PRD-112,Heavy Duty Stapler,Office Supplies,94.61,124.51,248,Pacific Supply Co.
+PRD-113,Laser Copy Paper (500 sheets),Office Supplies,443.5,914.74,118,Vanguard Mfg
+PRD-114,Desk Organizer Set,Office Supplies,132.31,245.29,388,Nexus Global
+PRD-115,Noise-Cancelling Desk Partition,Office Supplies,172.88,250.51,288,Apex Logistics
+PRD-116,Performance Polo,Clothing,278.02,392.73,265,Nexus Global
+PRD-117,Waterproof Shell Jacket,Clothing,213.39,321.46,585,Nexus Global
+PRD-118,Slim Fit Chinos,Clothing,311.23,638.24,72,Nexus Global
+PRD-119,Merino Wool Sweater,Clothing,371.59,748.68,425,Pacific Supply Co.
+PRD-120,Athletic Socks Pack,Clothing,39.12,82.84,595,Pacific Supply Co.

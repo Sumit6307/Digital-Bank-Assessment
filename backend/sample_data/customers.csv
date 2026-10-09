@@ -1,0 +1,121 @@
+customer_id,customer_name,segment,region,city,signup_date,credit_score,customer_satisfaction
+CUST-1001,Sophia Thomas,Consumer,Latin America,Bogota,2025-04-29,715,3.5
+CUST-1002,Mia Anderson,Consumer,Asia Pacific,Mumbai,2024-02-03,784,3.9
+CUST-1003,Michael Anderson,Enterprise,Latin America,Sao Paulo,2025-06-02,658,4.3
+CUST-1004,Ethan Thomas,Consumer,Latin America,Sao Paulo,2024-08-28,819,4.2
+CUST-1005,Alexander Martin,Enterprise,North America,Seattle,2023-10-25,716,4.6
+CUST-1006,Olivia Johnson,Mid-Market,Asia Pacific,Seoul,2024-06-15,581,4.9
+CUST-1007,Oliver Moore,Mid-Market,Asia Pacific,Mumbai,2024-04-21,634,4.8
+CUST-1008,David Martin,Small Business,Europe,Berlin,2023-08-04,662,4.2
+CUST-1009,Ethan Lee,Small Business,North America,Austin,2024-05-10,589,3.4
+CUST-1010,Olivia Lee,Enterprise,Asia Pacific,Singapore,2025-01-19,620,3.4
+CUST-1011,Ava Martin,Mid-Market,North America,Austin,2025-05-14,823,4.9
+CUST-1012,Michael Jones,Mid-Market,Latin America,Mexico City,2023-09-23,739,3.9
+CUST-1013,Daniel Thomas,Consumer,Asia Pacific,Seoul,2025-05-22,706,3.6
+CUST-1014,Olivia Smith,Mid-Market,Europe,Stockholm,2025-09-15,616,4.5
+CUST-1015,James Brown,Small Business,North America,New York,2025-07-12,843,3.6
+CUST-1016,Daniel Wilson,Mid-Market,Europe,Stockholm,2023-09-13,822,3.6
+CUST-1017,Ava Jackson,Enterprise,Latin America,Mexico City,2025-06-15,800,3.8
+CUST-1018,Lucas Wilson,Enterprise,North America,Seattle,2025-07-22,786,4.5
+CUST-1019,Ethan Martin,Mid-Market,North America,San Francisco,2025-03-12,809,3.5
+CUST-1020,Michael Jones,Enterprise,Latin America,Mexico City,2024-06-26,630,3.3
+CUST-1021,Alexander Martin,Mid-Market,North America,New York,2025-04-05,788,4.1
+CUST-1022,Sophia Martin,Mid-Market,Latin America,Sao Paulo,2024-08-30,581,5.0
+CUST-1023,David Lee,Consumer,Latin America,Buenos Aires,2023-10-10,829,3.5
+CUST-1024,David Brown,Enterprise,North America,Austin,2023-08-19,740,3.3
+CUST-1025,Isabella Wilson,Enterprise,Europe,London,2025-03-16,615,4.3
+CUST-1026,Daniel Martin,Enterprise,Europe,Amsterdam,2024-02-17,706,4.2
+CUST-1027,James Taylor,Small Business,North America,Toronto,2024-12-29,684,4.4
+CUST-1028,Olivia Brown,Mid-Market,Asia Pacific,Seoul,2023-11-05,733,4.0
+CUST-1029,Oliver Jackson,Consumer,North America,New York,2023-12-26,631,3.3
+CUST-1030,Sophia Anderson,Small Business,Asia Pacific,Singapore,2025-07-14,705,3.9
+CUST-1031,Michael Wilson,Enterprise,Asia Pacific,Mumbai,2023-11-09,733,4.9
+CUST-1032,Emma Lee,Enterprise,Europe,Paris,2025-06-05,659,3.7
+CUST-1033,Isabella Brown,Small Business,Asia Pacific,Singapore,2024-04-23,830,3.7
+CUST-1034,Oliver Martin,Consumer,North America,New York,2024-12-13,602,3.2
+CUST-1035,Ethan Williams,Consumer,Asia Pacific,Singapore,2024-03-07,798,4.2
+CUST-1036,Emma Johnson,Enterprise,Europe,Stockholm,2024-09-09,655,4.0
+CUST-1037,James Jones,Small Business,Asia Pacific,Tokyo,2025-02-19,707,4.4
+CUST-1038,Olivia Jackson,Mid-Market,Latin America,Mexico City,2025-04-09,670,4.8
+CUST-1039,James Williams,Mid-Market,Asia Pacific,Seoul,2024-12-23,661,4.6
+CUST-1040,Emma Davis,Mid-Market,North America,Toronto,2025-03-02,815,3.8
+CUST-1041,Charlotte Jackson,Enterprise,Europe,Berlin,2023-11-17,678,3.9
+CUST-1042,David Martin,Small Business,North America,Chicago,2023-12-06,840,3.9
+CUST-1043,Charlotte Anderson,Enterprise,Asia Pacific,Tokyo,2024-12-29,671,4.2
+CUST-1044,David Smith,Consumer,North America,Austin,2024-10-04,740,4.0
+CUST-1045,Alexander Johnson,Small Business,Latin America,Mexico City,2025-08-08,803,3.2
+CUST-1046,Oliver Jackson,Consumer,Europe,Paris,2025-07-13,749,4.3
+CUST-1047,Daniel Martin,Small Business,North America,Seattle,2024-04-21,738,4.4
+CUST-1048,Olivia Davis,Mid-Market,Asia Pacific,Mumbai,2025-03-10,795,4.4
+CUST-1049,Lucas Thomas,Small Business,Europe,Stockholm,2024-08-03,580,3.7
+CUST-1050,Sophia Davis,Consumer,Asia Pacific,Seoul,2024-06-27,689,4.1
+CUST-1051,Ethan Lee,Enterprise,Europe,Madrid,2024-12-06,843,4.4
+CUST-1052,Isabella Miller,Small Business,North America,San Francisco,2025-02-04,681,3.5
+CUST-1053,James Brown,Consumer,Latin America,Sao Paulo,2024-07-25,679,4.5
+CUST-1054,Lucas Wilson,Mid-Market,Latin America,Mexico City,2023-11-21,582,4.8
+CUST-1055,Charlotte Jackson,Mid-Market,North America,Toronto,2025-03-26,845,4.0
+CUST-1056,Alexander Brown,Mid-Market,North America,Toronto,2024-06-04,742,4.9
+CUST-1057,Oliver Wilson,Mid-Market,Latin America,Bogota,2023-08-23,823,4.0
+CUST-1058,Ethan Brown,Consumer,Asia Pacific,Mumbai,2023-12-21,702,3.7
+CUST-1059,Emma Moore,Small Business,Asia Pacific,Singapore,2024-10-14,743,4.8
+CUST-1060,Emma Williams,Consumer,Europe,Berlin,2023-10-13,658,4.5
+CUST-1061,Emma Davis,Consumer,Latin America,Buenos Aires,2024-07-24,611,3.6
+CUST-1062,Lucas Davis,Consumer,North America,Austin,2024-05-22,583,4.9
+CUST-1063,David Jackson,Mid-Market,Latin America,Bogota,2024-05-11,692,3.7
+CUST-1064,Ava Smith,Consumer,Latin America,Buenos Aires,2023-09-12,664,4.7
+CUST-1065,Oliver Williams,Enterprise,North America,Toronto,2025-06-29,799,3.4
+CUST-1066,Ava Williams,Consumer,North America,Chicago,2024-10-22,688,4.0
+CUST-1067,Olivia Jackson,Consumer,Latin America,Buenos Aires,2025-01-07,621,4.0
+CUST-1068,Mia Anderson,Mid-Market,North America,Chicago,2023-11-27,615,4.6
+CUST-1069,Daniel Smith,Mid-Market,North America,San Francisco,2025-09-02,658,3.6
+CUST-1070,Ava Thomas,Mid-Market,North America,Austin,2024-06-03,711,4.6
+CUST-1071,Michael Taylor,Small Business,North America,San Francisco,2025-06-04,593,4.9
+CUST-1072,Isabella Thomas,Mid-Market,Latin America,Bogota,2025-07-07,704,3.4
+CUST-1073,Ethan Jones,Enterprise,North America,Austin,2024-10-02,799,4.4
+CUST-1074,Emma Anderson,Consumer,Asia Pacific,Tokyo,2024-05-09,634,4.0
+CUST-1075,Olivia Thomas,Consumer,Latin America,Mexico City,2025-03-26,847,4.9
+CUST-1076,David Taylor,Consumer,Latin America,Bogota,2023-09-05,717,3.8
+CUST-1077,Sophia Martin,Consumer,North America,Chicago,2025-01-16,817,4.2
+CUST-1078,Daniel Davis,Consumer,Asia Pacific,Tokyo,2024-10-25,673,4.1
+CUST-1079,Olivia Jackson,Small Business,Asia Pacific,Sydney,2024-01-21,721,4.2
+CUST-1080,Alexander Brown,Consumer,North America,San Francisco,2024-05-10,703,4.4
+CUST-1081,Daniel Moore,Enterprise,Latin America,Bogota,2025-06-19,730,3.6
+CUST-1082,Mia Brown,Small Business,Asia Pacific,Mumbai,2024-05-26,756,4.0
+CUST-1083,Mia Anderson,Consumer,Asia Pacific,Sydney,2024-12-19,736,3.7
+CUST-1084,Emma Moore,Enterprise,Europe,Paris,2023-08-24,674,3.5
+CUST-1085,Mia Wilson,Small Business,Asia Pacific,Mumbai,2025-06-12,679,3.7
+CUST-1086,Olivia Williams,Mid-Market,Asia Pacific,Tokyo,2024-12-16,603,5.0
+CUST-1087,Alexander Jones,Consumer,Europe,Madrid,2025-06-09,586,4.2
+CUST-1088,Ava Wilson,Mid-Market,Latin America,Buenos Aires,2025-08-01,709,4.9
+CUST-1089,Ava Johnson,Consumer,North America,Toronto,2025-07-09,607,3.5
+CUST-1090,Ethan Taylor,Mid-Market,Asia Pacific,Tokyo,2025-05-24,793,4.3
+CUST-1091,Ethan Taylor,Consumer,Europe,Stockholm,2024-06-18,806,3.7
+CUST-1092,Isabella Davis,Enterprise,Asia Pacific,Mumbai,2024-01-07,630,4.9
+CUST-1093,Sophia Thomas,Enterprise,Europe,Paris,2025-04-15,702,3.5
+CUST-1094,Emma Williams,Consumer,North America,Toronto,2023-10-18,820,3.7
+CUST-1095,Sophia Jones,Enterprise,Asia Pacific,Seoul,2023-10-20,699,4.9
+CUST-1096,Ethan Jackson,Enterprise,Europe,Amsterdam,2024-03-14,695,4.4
+CUST-1097,Oliver Jones,Enterprise,Europe,London,2025-04-06,737,4.3
+CUST-1098,Charlotte Taylor,Enterprise,Asia Pacific,Seoul,2024-05-31,735,4.5
+CUST-1099,David Anderson,Enterprise,Latin America,Bogota,2024-01-19,600,4.8
+CUST-1100,Mia Miller,Enterprise,Asia Pacific,Tokyo,2025-01-31,590,5.0
+CUST-1101,Daniel Martin,Enterprise,Asia Pacific,Mumbai,2023-08-03,669,4.0
+CUST-1102,Daniel Wilson,Consumer,Asia Pacific,Singapore,2023-12-12,831,4.9
+CUST-1103,Ava Miller,Small Business,Latin America,Buenos Aires,2023-11-06,633,4.7
+CUST-1104,Olivia Davis,Consumer,Latin America,Buenos Aires,2023-08-06,598,4.0
+CUST-1105,Olivia Jones,Consumer,Asia Pacific,Tokyo,2024-04-14,580,4.4
+CUST-1106,Alexander Wilson,Mid-Market,Latin America,Sao Paulo,2024-04-10,765,4.3
+CUST-1107,Ava Thomas,Mid-Market,Latin America,Sao Paulo,2024-12-23,647,4.9
+CUST-1108,Ava Lee,Enterprise,Latin America,Sao Paulo,2023-12-17,702,4.5
+CUST-1109,David Anderson,Consumer,North America,Austin,2025-06-19,695,5.0
+CUST-1110,Oliver Johnson,Mid-Market,Latin America,Sao Paulo,2024-04-30,729,4.1
+CUST-1111,David Davis,Mid-Market,Latin America,Bogota,2024-06-12,654,3.9
+CUST-1112,Oliver Taylor,Small Business,Europe,London,2023-07-24,792,3.8
+CUST-1113,Ethan Anderson,Small Business,Asia Pacific,Tokyo,2023-09-10,732,4.7
+CUST-1114,Isabella Thomas,Consumer,Latin America,Mexico City,2024-03-20,827,3.8
+CUST-1115,Alexander Jackson,Small Business,Latin America,Bogota,2025-03-13,702,4.2
+CUST-1116,Sophia Martin,Small Business,Latin America,Sao Paulo,2023-08-22,822,4.5
+CUST-1117,Ethan Davis,Consumer,Latin America,Mexico City,2025-08-16,644,4.1
+CUST-1118,Isabella Miller,Enterprise,North America,Toronto,2024-04-02,813,3.2
+CUST-1119,Michael Davis,Consumer,Europe,London,2023-07-15,715,3.8
+CUST-1120,Mia Davis,Consumer,North America,Chicago,2024-11-02,829,4.8
