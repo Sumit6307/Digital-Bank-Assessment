@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { X, Cpu, ShieldCheck, Check } from 'lucide-react';
+import { X, Cpu, ShieldCheck, Check, Globe } from 'lucide-react';
+import { api } from '../services/api';
 
 export default function SettingsModal({ isOpen, onClose, config, onSaveConfig }) {
   const [provider, setProvider] = useState('gemini');
@@ -7,6 +8,7 @@ export default function SettingsModal({ isOpen, onClose, config, onSaveConfig })
   const [geminiKey, setGeminiKey] = useState('');
   const [openaiKey, setOpenaiKey] = useState('');
   const [groqKey, setGroqKey] = useState('');
+  const [backendUrl, setBackendUrl] = useState('');
   const [selfHealing, setSelfHealing] = useState(true);
   const [savedStatus, setSavedStatus] = useState(false);
 
@@ -15,11 +17,15 @@ export default function SettingsModal({ isOpen, onClose, config, onSaveConfig })
       setProvider(config.provider || 'gemini');
       setModel(config.model || 'gemini-2.5-flash');
     }
-  }, [config]);
+    setBackendUrl(api.getBackendUrl() || '');
+  }, [config, isOpen]);
 
   if (!isOpen) return null;
 
   const handleSave = async () => {
+    // Save backend URL locally
+    api.setBackendUrl(backendUrl);
+
     const payload = {
       provider,
       model,
@@ -29,12 +35,20 @@ export default function SettingsModal({ isOpen, onClose, config, onSaveConfig })
     if (openaiKey) payload.openai_api_key = openaiKey;
     if (groqKey) payload.groq_api_key = groqKey;
 
-    await onSaveConfig(payload);
+    try {
+      await onSaveConfig(payload);
+    } catch (e) {
+      console.warn("Could not push config to backend:", e);
+    }
     setSavedStatus(true);
     setTimeout(() => {
       setSavedStatus(false);
       onClose();
-    }, 1200);
+      // Reload if backend URL changed to refresh state
+      if (backendUrl !== api.getBackendUrl()) {
+        window.location.reload();
+      }
+    }, 1000);
   };
 
   const getModelOptions = () => {
@@ -176,6 +190,29 @@ export default function SettingsModal({ isOpen, onClose, config, onSaveConfig })
               />
             </div>
           )}
+
+          {/* Backend API URL (for Vercel / Render cloud deployments) */}
+          <div style={{
+            padding: '12px 14px',
+            background: 'var(--bg-secondary)',
+            borderRadius: 'var(--radius-md)',
+            border: '1px solid var(--border-light)'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
+              <Globe size={14} color="var(--accent)" />
+              <label style={{ ...formLabelStyle, marginBottom: 0 }}>Backend API URL</label>
+            </div>
+            <input
+              type="text"
+              placeholder="e.g. https://digital-ai-analyst-backend.onrender.com"
+              value={backendUrl}
+              onChange={(e) => setBackendUrl(e.target.value)}
+              style={{ fontSize: '12px', padding: '8px 10px' }}
+            />
+            <span style={{ fontSize: '10px', color: 'var(--text-tertiary)', marginTop: '4px', display: 'block' }}>
+              Leave empty for local dev (`/api`), or enter your live Render backend URL.
+            </span>
+          </div>
 
           {/* Self-Healing Toggle */}
           <div style={{
