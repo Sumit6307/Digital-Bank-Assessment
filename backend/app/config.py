@@ -1,19 +1,30 @@
 import os
-from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Optional
 
-class Settings(BaseSettings):
-    GEMINI_API_KEY: Optional[str] = os.getenv("GEMINI_API_KEY", "")
-    OPENAI_API_KEY: Optional[str] = os.getenv("OPENAI_API_KEY", "")
-    GROQ_API_KEY: Optional[str] = os.getenv("GROQ_API_KEY", "")
-    ANTHROPIC_API_KEY: Optional[str] = os.getenv("ANTHROPIC_API_KEY", "")
-    DEFAULT_PROVIDER: str = "gemini"  # gemini, openai, groq, local
-    DEFAULT_MODEL: str = "gemini-2.5-flash"
-    HOST: str = "0.0.0.0"
-    PORT: int = 8000
-    CORS_ORIGINS: list = ["*"]
-
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+try:
+    from pydantic_settings import BaseSettings, SettingsConfigDict
+    class Settings(BaseSettings):
+        GEMINI_API_KEY: Optional[str] = os.getenv("GEMINI_API_KEY", "")
+        OPENAI_API_KEY: Optional[str] = os.getenv("OPENAI_API_KEY", "")
+        GROQ_API_KEY: Optional[str] = os.getenv("GROQ_API_KEY", "")
+        ANTHROPIC_API_KEY: Optional[str] = os.getenv("ANTHROPIC_API_KEY", "")
+        DEFAULT_PROVIDER: str = "gemini"  # gemini, openai, groq, local
+        DEFAULT_MODEL: str = "gemini-2.5-flash"
+        HOST: str = "0.0.0.0"
+        PORT: int = 8000
+        CORS_ORIGINS: list = ["*"]
+        model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+except Exception:
+    class Settings:
+        GEMINI_API_KEY: Optional[str] = os.getenv("GEMINI_API_KEY", "")
+        OPENAI_API_KEY: Optional[str] = os.getenv("OPENAI_API_KEY", "")
+        GROQ_API_KEY: Optional[str] = os.getenv("GROQ_API_KEY", "")
+        ANTHROPIC_API_KEY: Optional[str] = os.getenv("ANTHROPIC_API_KEY", "")
+        DEFAULT_PROVIDER: str = "gemini"
+        DEFAULT_MODEL: str = "gemini-2.5-flash"
+        HOST: str = "0.0.0.0"
+        PORT: int = 8000
+        CORS_ORIGINS: list = ["*"]
 
 settings = Settings()
 
