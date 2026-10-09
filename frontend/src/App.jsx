@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { 
   MessageSquare, LayoutDashboard, Database, 
-  AlertOctagon, TrendingUp, Terminal, Sparkles
+  AlertOctagon, TrendingUp, Terminal, Upload,
+  RefreshCw, FileText, Settings, ChevronRight,
+  CheckCircle2, ShieldAlert, Cpu, Sparkles
 } from 'lucide-react';
 
-import Navbar from './components/Navbar';
+import './App.css';
 import ChatView from './components/ChatView';
 import DashboardView from './components/DashboardView';
 import DataStudioView from './components/DataStudioView';
@@ -76,92 +78,144 @@ export default function App() {
     setActiveTab('playground');
   };
 
-  const tabs = [
-    { id: 'chat', label: 'AI Analyst', icon: <MessageSquare size={16} /> },
-    { id: 'dashboard', label: 'Executive Dashboard', icon: <LayoutDashboard size={16} /> },
-    { id: 'studio', label: 'Data Studio & Quality', icon: <Database size={16} /> },
-    { id: 'anomalies', label: 'Anomaly Hunter', icon: <AlertOctagon size={16} /> },
-    { id: 'forecasting', label: 'Forecasting Lab', icon: <TrendingUp size={16} /> },
-    { id: 'playground', label: 'SQL & Python Studio', icon: <Terminal size={16} /> },
+  const tableCount = overview?.tables?.length || 0;
+  const healthScore = overview?.data_quality?.overall_health_score ?? 100;
+
+  const navSections = [
+    {
+      label: 'Analysis',
+      items: [
+        { id: 'chat', label: 'AI Analyst', icon: <MessageSquare size={17} /> },
+        { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={17} /> },
+        { id: 'studio', label: 'Data Studio', icon: <Database size={17} /> },
+      ]
+    },
+    {
+      label: 'Advanced',
+      items: [
+        { id: 'anomalies', label: 'Anomaly Hunter', icon: <AlertOctagon size={17} /> },
+        { id: 'forecasting', label: 'Forecasting', icon: <TrendingUp size={17} /> },
+        { id: 'playground', label: 'SQL & Python', icon: <Terminal size={17} /> },
+      ]
+    }
   ];
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#07090e' }}>
-      
-      {/* Top Header Navbar */}
-      <Navbar
-        overview={overview}
-        config={config}
-        onOpenUpload={() => setShowUpload(true)}
-        onLoadSamples={handleLoadSamples}
-        onOpenSettings={() => setShowSettings(true)}
-        onExportReport={() => setShowReport(true)}
-        loading={loading}
-      />
+    <div className="app-layout">
 
-      {/* Navigation Sub-Tabs Bar */}
-      <div style={{
-        margin: '0 16px 16px 16px',
-        display: 'flex',
-        gap: '6px',
-        overflowX: 'auto',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
-        paddingBottom: '8px'
-      }}>
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`tab-btn ${activeTab === tab.id ? 'active' : ''}`}
-          >
-            {tab.icon}
-            <span>{tab.label}</span>
+      {/* ── Sidebar ── */}
+      <aside className="app-sidebar">
+        <div className="sidebar-brand">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
+            <div style={{
+              width: '32px', height: '32px', borderRadius: '8px',
+              background: 'linear-gradient(135deg, var(--accent) 0%, #7C3AED 100%)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0
+            }}>
+              <Sparkles size={16} color="#fff" />
+            </div>
+            <div>
+              <h1>Digital AI</h1>
+              <p>Data Analyst</p>
+            </div>
+          </div>
+        </div>
+
+        <nav className="sidebar-nav">
+          {navSections.map((section) => (
+            <div key={section.label}>
+              <div className="sidebar-section-label">{section.label}</div>
+              {section.items.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  className={`nav-item ${activeTab === item.id ? 'active' : ''}`}
+                >
+                  {item.icon}
+                  <span>{item.label}</span>
+                </button>
+              ))}
+            </div>
+          ))}
+        </nav>
+
+        {/* Sidebar footer — quick actions */}
+        <div style={{ padding: '12px', borderTop: '1px solid var(--border-light)', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <button className="nav-item" onClick={() => setShowUpload(true)}>
+            <Upload size={17} />
+            <span>Upload Data</span>
           </button>
-        ))}
+          <button className="nav-item" onClick={() => setShowSettings(true)}>
+            <Settings size={17} />
+            <span>Settings</span>
+          </button>
+        </div>
+      </aside>
+
+      {/* ── Main Area ── */}
+      <div className="app-main">
+
+        {/* Top Bar */}
+        <header className="app-topbar">
+          <div className="topbar-status">
+            <div className="status-pill">
+              <Database size={13} color="var(--accent)" />
+              <span style={{ fontWeight: 600 }}>{tableCount} {tableCount === 1 ? 'Dataset' : 'Datasets'}</span>
+            </div>
+            <div className="status-pill">
+              {healthScore >= 90 ? (
+                <CheckCircle2 size={13} color="var(--success)" />
+              ) : (
+                <ShieldAlert size={13} color="var(--warning)" />
+              )}
+              <span style={{ fontWeight: 600, color: healthScore >= 90 ? 'var(--success)' : 'var(--warning)' }}>
+                {healthScore}% Health
+              </span>
+            </div>
+            <div className="status-pill">
+              <Cpu size={13} color="var(--accent)" />
+              <span>{config?.model || 'Gemini 2.5 Flash'}</span>
+            </div>
+          </div>
+
+          <div className="topbar-actions">
+            <button onClick={handleLoadSamples} disabled={loading} className="btn btn-secondary btn-sm">
+              <RefreshCw size={13} className={loading ? 'animate-spin' : ''} />
+              Sample Data
+            </button>
+            <button onClick={() => setShowReport(true)} className="btn btn-secondary btn-sm">
+              <FileText size={13} />
+              Export Report
+            </button>
+          </div>
+        </header>
+
+        {/* Content Area */}
+        <main className="app-content">
+          {activeTab === 'chat' && (
+            <ChatView overview={overview} onRunInPlayground={handleRunInPlayground} />
+          )}
+          {activeTab === 'dashboard' && (
+            <DashboardView overview={overview} onNavigateToTab={setActiveTab} />
+          )}
+          {activeTab === 'studio' && (
+            <DataStudioView overview={overview} />
+          )}
+          {activeTab === 'anomalies' && (
+            <AnomalyHunterView overview={overview} />
+          )}
+          {activeTab === 'forecasting' && (
+            <ForecastingView overview={overview} />
+          )}
+          {activeTab === 'playground' && (
+            <SQLPlaygroundView
+              overview={overview}
+              initialCode={playgroundQuery.code}
+              initialLang={playgroundQuery.lang}
+            />
+          )}
+        </main>
       </div>
-
-      {/* Active Tab View Body */}
-      <main style={{ flex: 1 }}>
-        {activeTab === 'chat' && (
-          <ChatView
-            overview={overview}
-            onRunInPlayground={handleRunInPlayground}
-          />
-        )}
-
-        {activeTab === 'dashboard' && (
-          <DashboardView
-            overview={overview}
-            onNavigateToTab={setActiveTab}
-          />
-        )}
-
-        {activeTab === 'studio' && (
-          <DataStudioView
-            overview={overview}
-          />
-        )}
-
-        {activeTab === 'anomalies' && (
-          <AnomalyHunterView
-            overview={overview}
-          />
-        )}
-
-        {activeTab === 'forecasting' && (
-          <ForecastingView
-            overview={overview}
-          />
-        )}
-
-        {activeTab === 'playground' && (
-          <SQLPlaygroundView
-            overview={overview}
-            initialCode={playgroundQuery.code}
-            initialLang={playgroundQuery.lang}
-          />
-        )}
-      </main>
 
       {/* Modals */}
       <FileUploadModal
@@ -170,19 +224,16 @@ export default function App() {
         onUpload={handleUploadFiles}
         onLoadSamples={handleLoadSamples}
       />
-
       <SettingsModal
         isOpen={showSettings}
         onClose={() => setShowSettings(false)}
         config={config}
         onSaveConfig={handleSaveConfig}
       />
-
       <ReportModal
         isOpen={showReport}
         onClose={() => setShowReport(false)}
       />
-
     </div>
   );
 }

@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { 
   Send, Bot, User, Sparkles, ChevronDown, ChevronUp, 
-  Code, CheckCircle2, HelpCircle, Lightbulb, AlertTriangle,
-  ArrowRight, CornerDownLeft, RefreshCw
+  CheckCircle2, Lightbulb, ArrowRight, RefreshCw
 } from 'lucide-react';
 import DynamicChart from './DynamicChart';
 import CodeBlock from './CodeBlock';
@@ -118,7 +117,7 @@ export default function ChatView({ onRunInPlayground, overview }) {
   ];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 110px)', padding: '0 16px 16px 16px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 104px)' }}>
       
       {/* Messages Scroll Area */}
       <div style={{
@@ -138,82 +137,74 @@ export default function ChatView({ onRunInPlayground, overview }) {
           return (
             <div
               key={idx}
-              className="animate-fade-in"
+              className="animate-fade-up"
               style={{
                 display: 'flex',
                 gap: '14px',
                 alignItems: 'flex-start',
-                justifyContent: isUser ? 'flex-end' : 'flex-start'
+                justifyContent: isUser ? 'flex-end' : 'flex-start',
+                animationDelay: `${idx * 0.05}s`
               }}
             >
               {/* Bot Avatar */}
               {!isUser && (
                 <div style={{
-                  width: '36px',
-                  height: '36px',
-                  borderRadius: '10px',
-                  background: 'linear-gradient(135deg, #6366f1 0%, #4338ca 100%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                  boxShadow: '0 4px 12px rgba(99, 102, 241, 0.3)'
+                  width: '36px', height: '36px', borderRadius: 'var(--radius-md)',
+                  background: 'linear-gradient(135deg, var(--accent) 0%, #7C3AED 100%)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  flexShrink: 0, boxShadow: '0 2px 8px rgba(79, 70, 229, 0.2)'
                 }}>
                   <Bot size={18} color="#ffffff" />
                 </div>
               )}
 
               {/* Message Bubble */}
-              <div style={{
-                maxWidth: isUser ? '75%' : '88%',
-                background: isUser ? 'linear-gradient(135deg, #4f46e5 0%, #4338ca 100%)' : '#0c1220',
-                border: `1px solid ${isUser ? 'rgba(255, 255, 255, 0.15)' : 'rgba(255, 255, 255, 0.08)'}`,
+              <div className={isUser ? '' : 'card'} style={{
+                maxWidth: isUser ? '70%' : '85%',
+                background: isUser ? 'var(--accent)' : 'var(--surface-primary)',
+                border: isUser ? 'none' : undefined,
                 borderRadius: isUser ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
-                padding: '16px 20px',
-                boxShadow: isUser ? '0 4px 15px rgba(79, 70, 229, 0.3)' : '0 8px 24px rgba(0,0,0,0.35)',
-                color: '#f8fafc'
+                padding: '14px 18px',
+                boxShadow: isUser ? 'var(--shadow-sm)' : undefined,
+                color: isUser ? '#ffffff' : 'var(--text-primary)'
               }}>
                 {isUser ? (
-                  <div style={{ fontSize: '14px', fontWeight: '500', lineHeight: 1.5 }}>
+                  <div style={{ fontSize: '13.5px', fontWeight: '500', lineHeight: 1.55 }}>
                     {msg.content}
                   </div>
                 ) : (
                   <div>
                     {/* Direct Answer */}
-                    <div style={{ fontSize: '14px', lineHeight: 1.6, marginBottom: '12px', whiteSpace: 'pre-wrap' }}>
+                    <div style={{ fontSize: '13.5px', lineHeight: 1.65, marginBottom: '10px', whiteSpace: 'pre-wrap', color: 'var(--text-primary)' }}>
                       {isObj ? msg.content.answer : msg.content}
                     </div>
 
                     {/* Step-by-Step Reasoning Trace Accordion */}
                     {isObj && msg.content.reasoning_steps && msg.content.reasoning_steps.length > 0 && (
                       <div style={{
-                        marginTop: '12px',
-                        borderRadius: '10px',
-                        background: 'rgba(255, 255, 255, 0.02)',
-                        border: '1px solid rgba(255, 255, 255, 0.06)',
+                        marginTop: '10px',
+                        borderRadius: 'var(--radius-md)',
+                        background: 'var(--bg-secondary)',
+                        border: '1px solid var(--border-light)',
                         overflow: 'hidden'
                       }}>
                         <button
                           onClick={() => toggleReasoning(idx)}
                           style={{
                             width: '100%',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
+                            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                             padding: '8px 12px',
-                            background: 'transparent',
-                            border: 'none',
-                            color: '#94a3b8',
-                            fontSize: '12px',
-                            fontWeight: '600',
-                            cursor: 'pointer'
+                            background: 'transparent', border: 'none',
+                            color: 'var(--text-secondary)',
+                            fontSize: '12px', fontWeight: '600', cursor: 'pointer',
+                            fontFamily: 'inherit'
                           }}
                         >
                           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                            <Sparkles size={13} color="#818cf8" />
+                            <Sparkles size={13} color="var(--accent)" />
                             <span>Reasoning Chain ({msg.content.reasoning_steps.length} Steps)</span>
                             {msg.content.execution_time_seconds && (
-                              <span style={{ fontSize: '11px', color: '#64748b' }}>
+                              <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>
                                 • {msg.content.execution_time_seconds}s
                               </span>
                             )}
@@ -222,22 +213,19 @@ export default function ChatView({ onRunInPlayground, overview }) {
                         </button>
 
                         {isReasoningOpen && (
-                          <div style={{ padding: '8px 12px 12px 12px', borderTop: '1px solid rgba(255, 255, 255, 0.04)' }}>
-                            <div style={{ fontSize: '12px', color: '#cbd5e1', marginBottom: '10px', fontStyle: 'italic' }}>
+                          <div style={{ padding: '8px 12px 12px 12px', borderTop: '1px solid var(--border-light)' }}>
+                            <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '10px', fontStyle: 'italic' }}>
                               "{msg.content.reasoning}"
                             </div>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
                               {msg.content.reasoning_steps.map((step, sIdx) => (
                                 <div key={sIdx} style={{
-                                  display: 'flex',
-                                  alignItems: 'flex-start',
-                                  gap: '8px',
-                                  fontSize: '11px'
+                                  display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '12px'
                                 }}>
-                                  <CheckCircle2 size={13} color="#10b981" style={{ marginTop: '2px', flexShrink: 0 }} />
+                                  <CheckCircle2 size={13} color="var(--success)" style={{ marginTop: '2px', flexShrink: 0 }} />
                                   <div>
-                                    <span style={{ fontWeight: '600', color: '#e2e8f0' }}>{step.title}: </span>
-                                    <span style={{ color: '#94a3b8' }}>{step.description}</span>
+                                    <span style={{ fontWeight: '600', color: 'var(--text-primary)' }}>{step.title}: </span>
+                                    <span style={{ color: 'var(--text-secondary)' }}>{step.description}</span>
                                   </div>
                                 </div>
                               ))}
@@ -275,15 +263,15 @@ export default function ChatView({ onRunInPlayground, overview }) {
                       <div style={{
                         marginTop: '12px',
                         padding: '12px 14px',
-                        background: 'rgba(16, 185, 129, 0.06)',
-                        border: '1px solid rgba(16, 185, 129, 0.2)',
-                        borderRadius: '10px'
+                        background: 'var(--success-light)',
+                        border: '1px solid var(--success-border)',
+                        borderRadius: 'var(--radius-md)'
                       }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#34d399', fontWeight: '700', fontSize: '12px', marginBottom: '6px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--success)', fontWeight: '700', fontSize: '12px', marginBottom: '6px' }}>
                           <Lightbulb size={14} />
-                          <span>Strategic Business Takeaways</span>
+                          <span>Key Insights</span>
                         </div>
-                        <ul style={{ margin: 0, paddingLeft: '16px', fontSize: '12px', color: '#cbd5e1', lineHeight: 1.6 }}>
+                        <ul style={{ margin: 0, paddingLeft: '16px', fontSize: '12px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
                           {msg.content.insights.map((ins, iIdx) => (
                             <li key={iIdx}>{ins}</li>
                           ))}
@@ -294,39 +282,19 @@ export default function ChatView({ onRunInPlayground, overview }) {
                     {/* Suggested Follow-up Questions */}
                     {isObj && msg.content.follow_up_questions && msg.content.follow_up_questions.length > 0 && (
                       <div style={{ marginTop: '14px' }}>
-                        <div style={{ fontSize: '11px', fontWeight: '600', color: '#64748b', textTransform: 'uppercase', marginBottom: '6px' }}>
-                          Suggested Follow-up Inquiries
+                        <div style={{ fontSize: '11px', fontWeight: '600', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }}>
+                          Suggested Follow-ups
                         </div>
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                           {msg.content.follow_up_questions.map((q, qIdx) => (
                             <button
                               key={qIdx}
                               onClick={() => handleSend(q)}
-                              style={{
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                gap: '5px',
-                                padding: '5px 11px',
-                                background: 'rgba(99, 102, 241, 0.08)',
-                                border: '1px solid rgba(99, 102, 241, 0.25)',
-                                borderRadius: '9999px',
-                                color: '#cbd5e1',
-                                fontSize: '11px',
-                                fontWeight: '500',
-                                cursor: 'pointer',
-                                transition: 'all 0.2s ease'
-                              }}
-                              onMouseOver={(e) => {
-                                e.currentTarget.style.background = 'rgba(99, 102, 241, 0.2)';
-                                e.currentTarget.style.color = '#ffffff';
-                              }}
-                              onMouseOut={(e) => {
-                                e.currentTarget.style.background = 'rgba(99, 102, 241, 0.08)';
-                                e.currentTarget.style.color = '#cbd5e1';
-                              }}
+                              className="btn btn-secondary btn-sm"
+                              style={{ fontSize: '11.5px', fontWeight: 500 }}
                             >
                               <span>{q}</span>
-                              <ArrowRight size={11} color="#818cf8" />
+                              <ArrowRight size={11} color="var(--accent)" />
                             </button>
                           ))}
                         </div>
@@ -339,14 +307,9 @@ export default function ChatView({ onRunInPlayground, overview }) {
               {/* User Avatar */}
               {isUser && (
                 <div style={{
-                  width: '36px',
-                  height: '36px',
-                  borderRadius: '10px',
-                  background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0
+                  width: '36px', height: '36px', borderRadius: 'var(--radius-md)',
+                  background: 'linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0
                 }}>
                   <User size={18} color="#ffffff" />
                 </div>
@@ -357,31 +320,20 @@ export default function ChatView({ onRunInPlayground, overview }) {
 
         {/* Loading Bubble */}
         {loading && (
-          <div style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
+          <div className="animate-fade-up" style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
             <div style={{
-              width: '36px',
-              height: '36px',
-              borderRadius: '10px',
-              background: 'linear-gradient(135deg, #6366f1 0%, #4338ca 100%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
+              width: '36px', height: '36px', borderRadius: 'var(--radius-md)',
+              background: 'linear-gradient(135deg, var(--accent) 0%, #7C3AED 100%)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center'
             }}>
               <RefreshCw size={18} color="#ffffff" className="animate-spin" />
             </div>
-            <div style={{
-              background: '#0c1220',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              borderRadius: '16px',
-              padding: '12px 18px',
-              fontSize: '13px',
-              color: '#94a3b8',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px'
+            <div className="card" style={{
+              padding: '12px 18px', fontSize: '13px', color: 'var(--text-secondary)',
+              display: 'flex', alignItems: 'center', gap: '8px'
             }}>
-              <Sparkles size={15} color="#818cf8" />
-              <span>Analyzing schema, executing vectorized DuckDB queries & synthesizing insights...</span>
+              <Sparkles size={15} color="var(--accent)" />
+              <span>Analyzing data and generating insights...</span>
             </div>
           </div>
         )}
@@ -391,17 +343,17 @@ export default function ChatView({ onRunInPlayground, overview }) {
 
       {/* Suggested Starter Chips */}
       {messages.length === 1 && (
-        <div style={{ marginBottom: '10px' }}>
-          <div style={{ fontSize: '11px', color: '#64748b', fontWeight: '600', textTransform: 'uppercase', marginBottom: '6px' }}>
-            Instant Starter Prompts
+        <div style={{ marginBottom: '12px' }}>
+          <div style={{ fontSize: '11px', color: 'var(--text-tertiary)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }}>
+            Quick Start Prompts
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
             {samplePrompts.map((p, idx) => (
               <button
                 key={idx}
                 onClick={() => handleSend(p)}
-                className="btn-secondary"
-                style={{ fontSize: '12px', padding: '6px 12px' }}
+                className="btn btn-secondary btn-sm"
+                style={{ fontSize: '12px' }}
               >
                 {p}
               </button>
@@ -411,12 +363,13 @@ export default function ChatView({ onRunInPlayground, overview }) {
       )}
 
       {/* Chat Input Bar */}
-      <div className="glass-panel" style={{
+      <div className="card" style={{
         padding: '10px 14px',
         display: 'flex',
         alignItems: 'center',
         gap: '10px',
-        background: '#0c1220'
+        borderRadius: 'var(--radius-lg)',
+        boxShadow: 'var(--shadow-md)'
       }}>
         <textarea
           rows={1}
@@ -428,14 +381,14 @@ export default function ChatView({ onRunInPlayground, overview }) {
               handleSend();
             }
           }}
-          placeholder="Ask any question (e.g. 'Which region generated highest revenue?', 'Show monthly sales trends', 'Generate SQL')..."
+          placeholder="Ask any question about your data..."
           style={{
             flex: 1,
             background: 'transparent',
             border: 'none',
             outline: 'none',
             resize: 'none',
-            color: '#ffffff',
+            color: 'var(--text-primary)',
             fontSize: '13px',
             fontFamily: 'inherit',
             padding: '6px 4px'
@@ -444,11 +397,11 @@ export default function ChatView({ onRunInPlayground, overview }) {
         <button
           onClick={() => handleSend()}
           disabled={!input.trim() || loading}
-          className="btn-primary"
-          style={{ padding: '8px 14px', borderRadius: '8px', opacity: !input.trim() || loading ? 0.5 : 1 }}
+          className="btn btn-primary"
+          style={{ padding: '8px 16px', opacity: !input.trim() || loading ? 0.5 : 1 }}
         >
-          <Send size={15} />
-          <span>Ask</span>
+          <Send size={14} />
+          <span>Send</span>
         </button>
       </div>
     </div>

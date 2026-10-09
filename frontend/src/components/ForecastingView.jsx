@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  TrendingUp, Calendar, RefreshCw, Sparkles, 
-  ArrowUpRight, Activity, ChevronRight
+  TrendingUp, RefreshCw
 } from 'lucide-react';
 import { Line } from 'react-chartjs-2';
 
@@ -66,15 +65,14 @@ export default function ForecastingView({ overview }) {
     }
   }, [selectedTable, dateCol, metricCol, horizon, frequency]);
 
-  // Build Chart.js structure for historical + forecast + confidence bands
   const chartData = forecastResult ? {
     labels: forecastResult.points.map(p => p.date),
     datasets: [
       {
         label: 'Historical Actuals',
         data: forecastResult.points.map(p => p.actual),
-        borderColor: '#06b6d4',
-        backgroundColor: 'rgba(6, 182, 212, 0.1)',
+        borderColor: '#0EA5E9',
+        backgroundColor: 'rgba(14, 165, 233, 0.08)',
         borderWidth: 2,
         pointRadius: 2,
         tension: 0.2
@@ -82,69 +80,76 @@ export default function ForecastingView({ overview }) {
       {
         label: 'Projected Forecast',
         data: forecastResult.points.map(p => p.forecast),
-        borderColor: '#a855f7',
+        borderColor: '#8B5CF6',
         borderDash: [5, 5],
         borderWidth: 2.5,
         pointRadius: 2,
         tension: 0.2
       },
       {
-        label: 'Upper 95% Confidence Band',
+        label: 'Upper 95% Confidence',
         data: forecastResult.points.map(p => p.upper_bound),
-        borderColor: 'rgba(168, 85, 247, 0.25)',
-        backgroundColor: 'rgba(168, 85, 247, 0.08)',
+        borderColor: 'rgba(139, 92, 246, 0.2)',
+        backgroundColor: 'rgba(139, 92, 246, 0.06)',
         borderWidth: 1,
         fill: '+1',
         pointRadius: 0
       },
       {
-        label: 'Lower 95% Confidence Band',
+        label: 'Lower 95% Confidence',
         data: forecastResult.points.map(p => p.lower_bound),
-        borderColor: 'rgba(168, 85, 247, 0.25)',
+        borderColor: 'rgba(139, 92, 246, 0.2)',
         borderWidth: 1,
         pointRadius: 0
       }
     ]
   } : null;
 
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { color: '#9CA3AF', maxRotation: 45, font: { family: 'Inter', size: 11 } } },
+      y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { color: '#9CA3AF', font: { family: 'Inter', size: 11 } } }
+    },
+    plugins: {
+      legend: { position: 'top', labels: { color: '#6B7280', font: { family: 'Inter', size: 11 } } }
+    }
+  };
+
   return (
-    <div style={{ padding: '0 16px 24px 16px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
       
-      {/* Controls Bar */}
-      <div className="glass-card" style={{ padding: '18px 22px' }}>
+      {/* Controls */}
+      <div className="card section-card">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '10px' }}>
           <div>
-            <h2 style={{ fontSize: '17px', fontWeight: '800', color: '#ffffff', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <TrendingUp size={18} color="#a855f7" />
-              Predictive Time-Series Forecasting Studio
-            </h2>
-            <p style={{ fontSize: '12px', color: '#94a3b8' }}>
-              Project future demand, revenue trajectories, and statistical confidence bands.
+            <h3 style={{ marginBottom: '2px' }}>
+              <TrendingUp size={17} color="#8B5CF6" />
+              Forecasting Lab
+            </h3>
+            <p style={{ fontSize: '12px', color: 'var(--text-tertiary)', margin: 0 }}>
+              Project future trends with statistical confidence bands.
             </p>
           </div>
-          <button onClick={handleRunForecast} className="btn-primary" style={{ fontSize: '12px' }}>
+          <button onClick={handleRunForecast} className="btn btn-primary btn-sm">
             <RefreshCw size={13} className={loading ? 'animate-spin' : ''} />
-            Recalculate Model
+            Recalculate
           </button>
         </div>
 
-        {/* Dimension Selectors */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
           gap: '14px',
           paddingTop: '14px',
-          borderTop: '1px solid rgba(255,255,255,0.06)'
+          borderTop: '1px solid var(--border-light)'
         }}>
           <div>
-            <label style={{ fontSize: '11px', fontWeight: '600', color: '#94a3b8', display: 'block', marginBottom: '6px' }}>
-              TARGET TABLE
+            <label style={{ fontSize: '11px', fontWeight: '600', color: 'var(--text-tertiary)', display: 'block', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              Table
             </label>
-            <select
-              value={selectedTable}
-              onChange={(e) => setSelectedTable(e.target.value)}
-              style={{ width: '100%' }}
-            >
+            <select value={selectedTable} onChange={(e) => setSelectedTable(e.target.value)} style={{ width: '100%' }}>
               {overview?.tables?.map((t) => (
                 <option key={t.table_name} value={t.table_name}>{t.table_name}</option>
               ))}
@@ -152,14 +157,10 @@ export default function ForecastingView({ overview }) {
           </div>
 
           <div>
-            <label style={{ fontSize: '11px', fontWeight: '600', color: '#94a3b8', display: 'block', marginBottom: '6px' }}>
-              DATE / TIME DIMENSION
+            <label style={{ fontSize: '11px', fontWeight: '600', color: 'var(--text-tertiary)', display: 'block', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              Date Column
             </label>
-            <select
-              value={dateCol}
-              onChange={(e) => setDateCol(e.target.value)}
-              style={{ width: '100%' }}
-            >
+            <select value={dateCol} onChange={(e) => setDateCol(e.target.value)} style={{ width: '100%' }}>
               {currentTableSchema?.columns?.map((c) => (
                 <option key={c.name} value={c.name}>{c.name}</option>
               ))}
@@ -167,14 +168,10 @@ export default function ForecastingView({ overview }) {
           </div>
 
           <div>
-            <label style={{ fontSize: '11px', fontWeight: '600', color: '#94a3b8', display: 'block', marginBottom: '6px' }}>
-              TARGET NUMERIC METRIC
+            <label style={{ fontSize: '11px', fontWeight: '600', color: 'var(--text-tertiary)', display: 'block', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              Metric
             </label>
-            <select
-              value={metricCol}
-              onChange={(e) => setMetricCol(e.target.value)}
-              style={{ width: '100%' }}
-            >
+            <select value={metricCol} onChange={(e) => setMetricCol(e.target.value)} style={{ width: '100%' }}>
               {currentTableSchema?.columns?.filter(c => c.is_numeric).map((c) => (
                 <option key={c.name} value={c.name}>{c.name}</option>
               ))}
@@ -183,100 +180,73 @@ export default function ForecastingView({ overview }) {
 
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
-              <label style={{ fontSize: '11px', fontWeight: '600', color: '#94a3b8' }}>
-                HORIZON PERIODS: {horizon}
+              <label style={{ fontSize: '11px', fontWeight: '600', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                Horizon: {horizon}
               </label>
             </div>
             <input
-              type="range"
-              min="7"
-              max="90"
-              step="1"
+              type="range" min="7" max="90" step="1"
               value={horizon}
               onChange={(e) => setHorizon(parseInt(e.target.value))}
-              style={{ width: '100%', accentColor: '#a855f7' }}
+              style={{ width: '100%', accentColor: '#8B5CF6' }}
             />
           </div>
         </div>
       </div>
 
-      {/* Error Message */}
+      {/* Error */}
       {error && (
-        <div className="glass-card" style={{ padding: '14px', background: 'rgba(244, 63, 94, 0.1)', border: '1px solid rgba(244, 63, 94, 0.3)', color: '#fb7185', fontSize: '13px' }}>
+        <div className="card" style={{ padding: '14px', background: 'var(--danger-light)', borderColor: 'var(--danger-border)', color: 'var(--danger)', fontSize: '13px' }}>
           {error}
         </div>
       )}
 
-      {/* KPI Cards for Forecast */}
+      {/* KPIs */}
       {forecastResult && (
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-          gap: '14px'
-        }}>
-          <div className="glass-card" style={{ padding: '16px 18px' }}>
-            <span style={{ fontSize: '11px', color: '#94a3b8', fontWeight: '600', textTransform: 'uppercase' }}>Trajectory Trend</span>
-            <div style={{ fontSize: '20px', fontWeight: '800', color: '#34d399', marginTop: '4px' }}>
+        <div className="metric-grid">
+          <div className="card metric-card animate-fade-up">
+            <div className="metric-label">Trend Direction</div>
+            <div className="metric-value" style={{ fontSize: '18px', color: 'var(--success)' }}>
               {forecastResult.trend_direction}
             </div>
           </div>
-
-          <div className="glass-card" style={{ padding: '16px 18px' }}>
-            <span style={{ fontSize: '11px', color: '#94a3b8', fontWeight: '600', textTransform: 'uppercase' }}>Historical Growth</span>
-            <div style={{ fontSize: '20px', fontWeight: '800', color: '#ffffff', marginTop: '4px' }}>
+          <div className="card metric-card animate-fade-up" style={{ animationDelay: '0.05s' }}>
+            <div className="metric-label">Historical Growth</div>
+            <div className="metric-value" style={{ fontSize: '18px' }}>
               {forecastResult.growth_rate_pct > 0 ? `+${forecastResult.growth_rate_pct}%` : `${forecastResult.growth_rate_pct}%`}
             </div>
           </div>
-
-          <div className="glass-card" style={{ padding: '16px 18px' }}>
-            <span style={{ fontSize: '11px', color: '#94a3b8', fontWeight: '600', textTransform: 'uppercase' }}>Forecast Horizon</span>
-            <div style={{ fontSize: '20px', fontWeight: '800', color: '#a855f7', marginTop: '4px' }}>
+          <div className="card metric-card animate-fade-up" style={{ animationDelay: '0.1s' }}>
+            <div className="metric-label">Forecast Horizon</div>
+            <div className="metric-value" style={{ fontSize: '18px', color: '#8B5CF6' }}>
               +{forecastResult.forecast_count} Periods
             </div>
           </div>
         </div>
       )}
 
-      {/* Interactive Forecast Graph */}
+      {/* Chart */}
       {chartData && (
-        <div className="glass-card" style={{ padding: '20px' }}>
-          <h3 style={{ fontSize: '14px', fontWeight: '700', color: '#f8fafc', marginBottom: '14px' }}>
-            {metricCol.replace(/_/g, ' ').toUpperCase()} Forecast Curve & 95% Confidence Bounds
+        <div className="card section-card">
+          <h3 style={{ marginBottom: '14px' }}>
+            {metricCol.replace(/_/g, ' ').toUpperCase()} — Forecast & Confidence Bands
           </h3>
           <div style={{ height: '340px' }}>
-            <Line
-              data={chartData}
-              options={{
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                  x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', maxRotation: 45 } },
-                  y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } }
-                },
-                plugins: {
-                  legend: { position: 'top', labels: { color: '#cbd5e1' } }
-                }
-              }}
-            />
+            <Line data={chartData} options={chartOptions} />
           </div>
 
           {forecastResult?.summary_insight && (
             <div style={{
-              marginTop: '16px',
-              padding: '12px 16px',
-              background: 'rgba(168, 85, 247, 0.08)',
-              border: '1px solid rgba(168, 85, 247, 0.25)',
-              borderRadius: '8px',
-              fontSize: '13px',
-              color: '#e2e8f0',
-              lineHeight: 1.5
+              marginTop: '16px', padding: '12px 16px',
+              background: 'var(--accent-light)', border: '1px solid var(--accent-muted)',
+              borderRadius: 'var(--radius-md)',
+              fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.55
             }}>
-              <b>Forecast Model Takeaway:</b> {forecastResult.summary_insight}
+              <b>Model Insight:</b> {forecastResult.summary_insight}
             </div>
           )}
         </div>
       )}
-
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Key, Cpu, ShieldCheck, Sparkles, Check, AlertCircle } from 'lucide-react';
+import { X, Cpu, ShieldCheck, Check } from 'lucide-react';
 
 export default function SettingsModal({ isOpen, onClose, config, onSaveConfig }) {
   const [provider, setProvider] = useState('gemini');
@@ -40,79 +40,58 @@ export default function SettingsModal({ isOpen, onClose, config, onSaveConfig })
   const getModelOptions = () => {
     if (provider === 'gemini') {
       return [
-        { id: 'gemini-2.5-flash', name: 'Gemini 2.5 Flash (Recommended - Ultra Fast)' },
-        { id: 'gemini-1.5-pro', name: 'Gemini 1.5 Pro (Deep Analytical Reasoning)' },
+        { id: 'gemini-2.5-flash', name: 'Gemini 2.5 Flash (Recommended)' },
+        { id: 'gemini-1.5-pro', name: 'Gemini 1.5 Pro (Deep Reasoning)' },
         { id: 'gemini-1.5-flash', name: 'Gemini 1.5 Flash' }
       ];
     } else if (provider === 'openai') {
       return [
         { id: 'gpt-4o', name: 'GPT-4o (High Precision)' },
-        { id: 'gpt-4o-mini', name: 'GPT-4o Mini (Fast & Cost Effective)' },
-        { id: 'o3-mini', name: 'o3-mini (Advanced Reasoning)' }
+        { id: 'gpt-4o-mini', name: 'GPT-4o Mini (Fast)' },
+        { id: 'o3-mini', name: 'o3-mini (Reasoning)' }
       ];
     } else if (provider === 'groq') {
       return [
-        { id: 'llama-3.3-70b-versatile', name: 'Llama 3.3 70B (Ultra Low Latency)' },
+        { id: 'llama-3.3-70b-versatile', name: 'Llama 3.3 70B (Ultra Fast)' },
         { id: 'mixtral-8x7b-32768', name: 'Mixtral 8x7B' }
       ];
     }
-    return [{ id: 'local-analytics', name: 'Built-in Local Analytical Agent (Zero Key Required)' }];
+    return [{ id: 'local-analytics', name: 'Local Analytics Engine (No Key Required)' }];
+  };
+
+  const formLabelStyle = {
+    fontSize: '12px', fontWeight: '600', color: 'var(--text-secondary)',
+    display: 'block', marginBottom: '6px'
   };
 
   return (
-    <div style={{
-      position: 'fixed',
-      inset: 0,
-      background: 'rgba(0, 0, 0, 0.75)',
-      backdropFilter: 'blur(8px)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 100,
-      padding: '20px'
-    }}>
-      <div className="glass-panel animate-fade-in" style={{
-        width: '100%',
-        maxWidth: '520px',
-        padding: '26px',
-        background: '#0d1322',
-        border: '1px solid rgba(255, 255, 255, 0.12)'
-      }}>
+    <div className="modal-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className="modal-content animate-fade-up" style={{ width: '100%', maxWidth: '480px', padding: '28px' }}>
         {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <div style={{
-              width: '32px',
-              height: '32px',
-              borderRadius: '8px',
-              background: 'rgba(99, 102, 241, 0.2)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
+              width: '34px', height: '34px', borderRadius: 'var(--radius-md)',
+              background: 'var(--accent-light)', border: '1px solid var(--accent-muted)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center'
             }}>
-              <Cpu size={18} color="#818cf8" />
+              <Cpu size={17} color="var(--accent)" />
             </div>
             <div>
-              <h2 style={{ fontSize: '17px', fontWeight: '700', color: '#ffffff' }}>
-                AI Model & LLM Settings
-              </h2>
-              <p style={{ fontSize: '11px', color: '#94a3b8' }}>
-                Configure multi-provider LLMs or switch to zero-key local analytical engine.
-              </p>
+              <h2 style={{ fontSize: '16px', fontWeight: '700', color: 'var(--text-primary)' }}>AI Settings</h2>
+              <p style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>Configure LLM provider and model.</p>
             </div>
           </div>
-          <button onClick={onClose} style={{ background: 'transparent', border: 'none', color: '#64748b', cursor: 'pointer' }}>
-            <X size={20} />
+          <button onClick={onClose} className="btn btn-ghost btn-icon">
+            <X size={18} />
           </button>
         </div>
 
-        {/* Form Body */}
+        {/* Form */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {/* Provider Selector */}
+          {/* Provider */}
           <div>
-            <label style={{ fontSize: '12px', fontWeight: '600', color: '#cbd5e1', display: 'block', marginBottom: '6px' }}>
-              LLM Provider
-            </label>
+            <label style={formLabelStyle}>LLM Provider</label>
             <select
               value={provider}
               onChange={(e) => {
@@ -122,51 +101,40 @@ export default function SettingsModal({ isOpen, onClose, config, onSaveConfig })
                 else if (e.target.value === 'groq') setModel('llama-3.3-70b-versatile');
                 else setModel('local-analytics');
               }}
-              style={{ width: '100%' }}
             >
               <option value="gemini">Google Gemini (Recommended)</option>
-              <option value="openai">OpenAI (GPT-4o / GPT-4o-mini)</option>
+              <option value="openai">OpenAI (GPT-4o)</option>
               <option value="groq">Groq (Llama 3.3 70B)</option>
-              <option value="local">Local Analytical Engine (No API Key Needed)</option>
+              <option value="local">Local Analytics (No Key)</option>
             </select>
           </div>
 
-          {/* Model Selector */}
+          {/* Model */}
           <div>
-            <label style={{ fontSize: '12px', fontWeight: '600', color: '#cbd5e1', display: 'block', marginBottom: '6px' }}>
-              Model Architecture
-            </label>
-            <select
-              value={model}
-              onChange={(e) => setModel(e.target.value)}
-              style={{ width: '100%' }}
-              disabled={provider === 'local'}
-            >
+            <label style={formLabelStyle}>Model</label>
+            <select value={model} onChange={(e) => setModel(e.target.value)} disabled={provider === 'local'}>
               {getModelOptions().map((opt) => (
                 <option key={opt.id} value={opt.id}>{opt.name}</option>
               ))}
             </select>
           </div>
 
-          {/* API Key Inputs */}
+          {/* API Keys */}
           {provider === 'gemini' && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
-                <label style={{ fontSize: '12px', fontWeight: '600', color: '#cbd5e1' }}>
-                  Gemini API Key
-                </label>
+                <label style={{ ...formLabelStyle, marginBottom: 0 }}>Gemini API Key</label>
                 {config?.has_gemini_key && (
-                  <span style={{ fontSize: '11px', color: '#34d399', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <ShieldCheck size={12} /> Active in Environment
+                  <span style={{ fontSize: '11px', color: 'var(--success)', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 600 }}>
+                    <ShieldCheck size={12} /> Active
                   </span>
                 )}
               </div>
               <input
                 type="password"
-                placeholder={config?.has_gemini_key ? '••••••••••••••••••••••••' : 'Enter AIzaSy...'}
+                placeholder={config?.has_gemini_key ? '••••••••••••••••' : 'Enter AIzaSy...'}
                 value={geminiKey}
                 onChange={(e) => setGeminiKey(e.target.value)}
-                style={{ width: '100%' }}
               />
             </div>
           )}
@@ -174,21 +142,18 @@ export default function SettingsModal({ isOpen, onClose, config, onSaveConfig })
           {provider === 'openai' && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
-                <label style={{ fontSize: '12px', fontWeight: '600', color: '#cbd5e1' }}>
-                  OpenAI API Key
-                </label>
+                <label style={{ ...formLabelStyle, marginBottom: 0 }}>OpenAI API Key</label>
                 {config?.has_openai_key && (
-                  <span style={{ fontSize: '11px', color: '#34d399', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <ShieldCheck size={12} /> Active in Environment
+                  <span style={{ fontSize: '11px', color: 'var(--success)', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 600 }}>
+                    <ShieldCheck size={12} /> Active
                   </span>
                 )}
               </div>
               <input
                 type="password"
-                placeholder={config?.has_openai_key ? '••••••••••••••••••••••••' : 'Enter sk-proj-...'}
+                placeholder={config?.has_openai_key ? '••••••••••••••••' : 'Enter sk-proj-...'}
                 value={openaiKey}
                 onChange={(e) => setOpenaiKey(e.target.value)}
-                style={{ width: '100%' }}
               />
             </div>
           )}
@@ -196,65 +161,45 @@ export default function SettingsModal({ isOpen, onClose, config, onSaveConfig })
           {provider === 'groq' && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
-                <label style={{ fontSize: '12px', fontWeight: '600', color: '#cbd5e1' }}>
-                  Groq API Key
-                </label>
+                <label style={{ ...formLabelStyle, marginBottom: 0 }}>Groq API Key</label>
                 {config?.has_groq_key && (
-                  <span style={{ fontSize: '11px', color: '#34d399', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <ShieldCheck size={12} /> Active in Environment
+                  <span style={{ fontSize: '11px', color: 'var(--success)', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 600 }}>
+                    <ShieldCheck size={12} /> Active
                   </span>
                 )}
               </div>
               <input
                 type="password"
-                placeholder={config?.has_groq_key ? '••••••••••••••••••••••••' : 'Enter gsk_...'}
+                placeholder={config?.has_groq_key ? '••••••••••••••••' : 'Enter gsk_...'}
                 value={groqKey}
                 onChange={(e) => setGroqKey(e.target.value)}
-                style={{ width: '100%' }}
               />
             </div>
           )}
 
-          {/* Self-Healing Switch */}
+          {/* Self-Healing Toggle */}
           <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '12px 14px',
-            background: 'rgba(255, 255, 255, 0.03)',
-            borderRadius: '10px',
-            border: '1px solid rgba(255, 255, 255, 0.06)'
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            padding: '12px 14px', background: 'var(--bg-secondary)',
+            borderRadius: 'var(--radius-md)', border: '1px solid var(--border-light)'
           }}>
             <div>
-              <div style={{ fontSize: '13px', fontWeight: '600', color: '#f8fafc' }}>
-                Agentic Self-Healing Loop
-              </div>
-              <div style={{ fontSize: '11px', color: '#94a3b8' }}>
-                Auto-corrects and repairs SQL syntax errors using traceback introspection.
-              </div>
+              <div style={{ fontSize: '13px', fontWeight: '600', color: 'var(--text-primary)' }}>Self-Healing Loop</div>
+              <div style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>Auto-corrects SQL errors via traceback analysis.</div>
             </div>
             <input
-              type="checkbox"
-              checked={selfHealing}
+              type="checkbox" checked={selfHealing}
               onChange={(e) => setSelfHealing(e.target.checked)}
-              style={{ width: '18px', height: '18px', accentColor: '#6366f1', cursor: 'pointer' }}
+              style={{ width: '18px', height: '18px', accentColor: 'var(--accent)', cursor: 'pointer' }}
             />
           </div>
         </div>
 
         {/* Footer */}
-        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '24px' }}>
-          <button onClick={onClose} className="btn-secondary">
-            Cancel
-          </button>
-          <button onClick={handleSave} className="btn-primary">
-            {savedStatus ? (
-              <>
-                <Check size={14} /> Saved!
-              </>
-            ) : (
-              'Save Configuration'
-            )}
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '24px' }}>
+          <button onClick={onClose} className="btn btn-secondary">Cancel</button>
+          <button onClick={handleSave} className="btn btn-primary">
+            {savedStatus ? (<><Check size={14} /> Saved!</>) : 'Save Configuration'}
           </button>
         </div>
       </div>

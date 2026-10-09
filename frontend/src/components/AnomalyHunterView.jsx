@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  AlertOctagon, ShieldAlert, Sparkles, RefreshCw, 
-  Sliders, ArrowUpRight, CheckCircle2, Search
+  AlertOctagon, ShieldAlert, RefreshCw, 
+  CheckCircle2, Search
 } from 'lucide-react';
-import DynamicChart from './DynamicChart';
 
 export default function AnomalyHunterView({ overview }) {
   const [anomalyData, setAnomalyData] = useState(null);
@@ -50,153 +49,127 @@ export default function AnomalyHunterView({ overview }) {
   }) || [];
 
   return (
-    <div style={{ padding: '0 16px 24px 16px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
       
-      {/* Top Controls Header */}
-      <div className="glass-card" style={{ padding: '18px 22px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px' }}>
+      {/* Controls */}
+      <div className="card section-card">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px', marginBottom: '16px' }}>
           <div>
-            <h2 style={{ fontSize: '17px', fontWeight: '800', color: '#ffffff', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <AlertOctagon size={18} color="#f43f5e" />
-              Anomaly Hunter & Root-Cause Explainer
-            </h2>
-            <p style={{ fontSize: '12px', color: '#94a3b8' }}>
-              Multivariate Isolation Forest, IQR, and Z-Score outlier detection with automated explainability.
+            <h3 style={{ marginBottom: '2px' }}>
+              <AlertOctagon size={17} color="var(--danger)" />
+              Anomaly Hunter
+            </h3>
+            <p style={{ fontSize: '12px', color: 'var(--text-tertiary)' }}>
+              Isolation Forest, IQR, and Z-Score outlier detection with explainability.
             </p>
           </div>
-
-          <button onClick={fetchAnomalies} className="btn-secondary" style={{ fontSize: '12px' }}>
+          <button onClick={fetchAnomalies} className="btn btn-secondary btn-sm">
             <RefreshCw size={13} className={loading ? 'animate-spin' : ''} />
-            Re-scan Dataset
+            Re-scan
           </button>
         </div>
 
-        {/* Sliders and Method Picker */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: '16px',
-          marginTop: '16px',
+          gap: '14px',
           paddingTop: '16px',
-          borderTop: '1px solid rgba(255,255,255,0.06)'
+          borderTop: '1px solid var(--border-light)'
         }}>
-          {/* Target Table */}
           <div>
-            <label style={{ fontSize: '11px', fontWeight: '600', color: '#94a3b8', display: 'block', marginBottom: '6px' }}>
-              TARGET DATASET
+            <label style={{ fontSize: '11px', fontWeight: '600', color: 'var(--text-tertiary)', display: 'block', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              Target Dataset
             </label>
-            <select
-              value={selectedTable}
-              onChange={(e) => setSelectedTable(e.target.value)}
-              style={{ width: '100%' }}
-            >
+            <select value={selectedTable} onChange={(e) => setSelectedTable(e.target.value)} style={{ width: '100%' }}>
               {overview?.tables?.map((t) => (
                 <option key={t.table_name} value={t.table_name}>{t.table_name}</option>
               ))}
             </select>
           </div>
 
-          {/* Algorithm Selector */}
           <div>
-            <label style={{ fontSize: '11px', fontWeight: '600', color: '#94a3b8', display: 'block', marginBottom: '6px' }}>
-              DETECTION ALGORITHM
+            <label style={{ fontSize: '11px', fontWeight: '600', color: 'var(--text-tertiary)', display: 'block', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              Algorithm
             </label>
-            <select
-              value={method}
-              onChange={(e) => setMethod(e.target.value)}
-              style={{ width: '100%' }}
-            >
-              <option value="isolation_forest">Isolation Forest (Multivariate ML)</option>
-              <option value="iqr">Interquartile Range (IQR 1.5x)</option>
-              <option value="z_score">Modified Z-Score (3.0 Std Dev)</option>
+            <select value={method} onChange={(e) => setMethod(e.target.value)} style={{ width: '100%' }}>
+              <option value="isolation_forest">Isolation Forest (ML)</option>
+              <option value="iqr">Interquartile Range (IQR)</option>
+              <option value="z_score">Modified Z-Score (3σ)</option>
             </select>
           </div>
 
-          {/* Contamination Slider */}
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
-              <label style={{ fontSize: '11px', fontWeight: '600', color: '#94a3b8' }}>
-                CONTAMINATION SENSITIVITY
+              <label style={{ fontSize: '11px', fontWeight: '600', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                Sensitivity
               </label>
-              <span style={{ fontSize: '11px', fontWeight: '700', color: '#f43f5e' }}>
+              <span style={{ fontSize: '11px', fontWeight: '700', color: 'var(--danger)' }}>
                 {(contamination * 100).toFixed(0)}%
               </span>
             </div>
             <input
-              type="range"
-              min="0.01"
-              max="0.10"
-              step="0.01"
+              type="range" min="0.01" max="0.10" step="0.01"
               value={contamination}
               onChange={(e) => setContamination(parseFloat(e.target.value))}
-              style={{ width: '100%', accentColor: '#f43f5e' }}
+              style={{ width: '100%', accentColor: 'var(--danger)' }}
             />
           </div>
         </div>
       </div>
 
-      {/* Summary KPI Badges */}
+      {/* Summary KPIs */}
       {anomalyData && (
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: '14px'
-        }}>
-          <div className="glass-card" style={{ padding: '16px 18px' }}>
-            <span style={{ fontSize: '11px', color: '#94a3b8', fontWeight: '600', textTransform: 'uppercase' }}>Total Records Scanned</span>
-            <div style={{ fontSize: '22px', fontWeight: '800', color: '#ffffff', marginTop: '4px' }}>
-              {anomalyData.total_records?.toLocaleString()}
-            </div>
+        <div className="metric-grid">
+          <div className="card metric-card animate-fade-up">
+            <div className="metric-label">Records Scanned</div>
+            <div className="metric-value">{anomalyData.total_records?.toLocaleString()}</div>
           </div>
-
-          <div className="glass-card" style={{ padding: '16px 18px' }}>
-            <span style={{ fontSize: '11px', color: '#fb7185', fontWeight: '600', textTransform: 'uppercase' }}>Anomalies Flagged</span>
-            <div style={{ fontSize: '22px', fontWeight: '800', color: '#f43f5e', marginTop: '4px' }}>
+          <div className="card metric-card animate-fade-up" style={{ animationDelay: '0.05s' }}>
+            <div className="metric-label" style={{ color: 'var(--danger)' }}>Anomalies Found</div>
+            <div className="metric-value" style={{ color: 'var(--danger)' }}>
               {anomalyData.anomalies_found} ({anomalyData.anomaly_percentage}%)
             </div>
           </div>
-
-          <div className="glass-card" style={{ padding: '16px 18px' }}>
-            <span style={{ fontSize: '11px', color: '#818cf8', fontWeight: '600', textTransform: 'uppercase' }}>Algorithm Applied</span>
-            <div style={{ fontSize: '16px', fontWeight: '700', color: '#a5b4fc', marginTop: '4px' }}>
+          <div className="card metric-card animate-fade-up" style={{ animationDelay: '0.1s' }}>
+            <div className="metric-label">Algorithm</div>
+            <div className="metric-value" style={{ fontSize: '16px', color: 'var(--accent)' }}>
               {anomalyData.method_used}
             </div>
           </div>
         </div>
       )}
 
-      {/* Recommendation Banner */}
+      {/* Recommendation */}
       {anomalyData?.recommendation && (
-        <div className="glass-card" style={{
+        <div className="card" style={{
           padding: '14px 18px',
-          background: 'rgba(244, 63, 94, 0.08)',
-          border: '1px solid rgba(244, 63, 94, 0.25)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '12px'
+          background: 'var(--danger-light)',
+          borderColor: 'var(--danger-border)',
+          display: 'flex', alignItems: 'center', gap: '12px'
         }}>
-          <ShieldAlert size={20} color="#f43f5e" style={{ flexShrink: 0 }} />
-          <div style={{ fontSize: '13px', color: '#f8fafc', lineHeight: 1.5 }}>
-            <b>Executive Takeaway:</b> {anomalyData.recommendation}
+          <ShieldAlert size={20} color="var(--danger)" style={{ flexShrink: 0 }} />
+          <div style={{ fontSize: '13px', color: 'var(--text-primary)', lineHeight: 1.55 }}>
+            <b>Takeaway:</b> {anomalyData.recommendation}
           </div>
         </div>
       )}
 
-      {/* Anomaly Records Explanatory Table */}
-      <div className="glass-card" style={{ padding: '20px' }}>
+      {/* Anomaly Records */}
+      <div className="card section-card">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '10px' }}>
-          <h3 style={{ fontSize: '14px', fontWeight: '700', color: '#f8fafc' }}>
-            Flagged Outlier Records & Explanations ({filteredAnomalies.length})
+          <h3 style={{ marginBottom: 0 }}>
+            Flagged Records ({filteredAnomalies.length})
           </h3>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#090e18', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '4px 10px' }}>
-            <Search size={14} color="#64748b" />
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: '8px',
+            background: 'var(--bg-secondary)', border: '1px solid var(--border-light)',
+            borderRadius: 'var(--radius-md)', padding: '4px 10px'
+          }}>
+            <Search size={14} color="var(--text-tertiary)" />
             <input
-              type="text"
-              placeholder="Search anomalies..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ background: 'transparent', border: 'none', padding: '2px', fontSize: '12px' }}
+              type="text" placeholder="Search anomalies..."
+              value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
+              style={{ background: 'transparent', border: 'none', padding: '4px', fontSize: '12px', width: '150px' }}
             />
           </div>
         </div>
@@ -204,44 +177,41 @@ export default function AnomalyHunterView({ overview }) {
         {filteredAnomalies.length > 0 ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {filteredAnomalies.map((item, idx) => (
-              <div key={idx} style={{
+              <div key={idx} className="animate-fade-up" style={{
                 padding: '14px 18px',
-                background: 'rgba(255, 255, 255, 0.02)',
-                border: '1px solid rgba(255, 255, 255, 0.06)',
-                borderRadius: '10px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '8px'
+                background: 'var(--bg-secondary)',
+                border: '1px solid var(--border-light)',
+                borderRadius: 'var(--radius-md)',
+                display: 'flex', flexDirection: 'column', gap: '8px',
+                animationDelay: `${idx * 0.03}s`
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <span className="badge badge-rose" style={{ fontSize: '11px' }}>
-                      Row #{item.row_index}
-                    </span>
-                    <span style={{ fontSize: '12px', fontWeight: '600', color: '#e2e8f0' }}>
-                      Anomaly Score: <b>{item.anomaly_score.toFixed(1)}/100</b>
+                    <span className="badge badge-danger">Row #{item.row_index}</span>
+                    <span style={{ fontSize: '12px', fontWeight: '600', color: 'var(--text-primary)' }}>
+                      Score: <b>{item.anomaly_score.toFixed(1)}/100</b>
                     </span>
                   </div>
-
-                  <div style={{ display: 'flex', gap: '6px' }}>
+                  <div style={{ display: 'flex', gap: '5px' }}>
                     {item.flagged_columns?.map((c) => (
-                      <span key={c} className="badge badge-amber" style={{ fontSize: '10px' }}>
-                        {c}
-                      </span>
+                      <span key={c} className="badge badge-warning" style={{ fontSize: '10px' }}>{c}</span>
                     ))}
                   </div>
                 </div>
 
-                <div style={{ fontSize: '12px', color: '#cbd5e1', lineHeight: 1.5, background: 'rgba(0,0,0,0.2)', padding: '8px 12px', borderRadius: '6px' }}>
-                  <span style={{ color: '#f43f5e', fontWeight: '700' }}>Why Flagged: </span>
+                <div style={{
+                  fontSize: '12px', color: 'var(--text-secondary)', lineHeight: 1.55,
+                  background: 'var(--surface-primary)', padding: '8px 12px',
+                  borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-light)'
+                }}>
+                  <span style={{ color: 'var(--danger)', fontWeight: '700' }}>Why Flagged: </span>
                   {item.explanation}
                 </div>
 
-                {/* Raw Row Values Preview */}
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', fontSize: '11px', color: '#94a3b8' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', fontSize: '11px', color: 'var(--text-tertiary)' }}>
                   {Object.entries(item.record || {}).slice(0, 7).map(([k, v]) => (
                     <div key={k}>
-                      <span style={{ color: '#64748b' }}>{k}:</span> <b>{String(v ?? '')}</b>
+                      <span style={{ color: 'var(--text-tertiary)' }}>{k}:</span> <b style={{ color: 'var(--text-secondary)' }}>{String(v ?? '')}</b>
                     </div>
                   ))}
                 </div>
@@ -249,13 +219,12 @@ export default function AnomalyHunterView({ overview }) {
             ))}
           </div>
         ) : (
-          <div style={{ padding: '30px', textAlign: 'center', color: '#94a3b8' }}>
-            <CheckCircle2 size={32} color="#10b981" style={{ margin: '0 auto 8px auto' }} />
-            <p>No outlier anomalies matching criteria.</p>
+          <div style={{ padding: '30px', textAlign: 'center', color: 'var(--text-tertiary)' }}>
+            <CheckCircle2 size={32} color="var(--success)" style={{ margin: '0 auto 8px auto' }} />
+            <p>No anomalies found matching criteria.</p>
           </div>
         )}
       </div>
-
     </div>
   );
 }

@@ -15,32 +15,21 @@ export default function CodeBlock({ code, language = 'sql', onRun = null }) {
   const lines = code.trim().split('\n');
 
   return (
-    <div style={{
-      borderRadius: '10px',
-      overflow: 'hidden',
-      background: '#070a12',
-      border: '1px solid rgba(255,255,255,0.08)',
-      margin: '10px 0',
-      fontSize: '12px',
-      fontFamily: "'JetBrains Mono', monospace"
-    }}>
+    <div className="code-block" style={{ margin: '10px 0' }}>
       <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '6px 12px',
-        background: 'rgba(255,255,255,0.03)',
-        borderBottom: '1px solid rgba(255,255,255,0.06)'
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+        padding: '6px 12px', background: '#181825',
+        borderBottom: '1px solid rgba(255,255,255,0.08)'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#818cf8', fontWeight: '600', fontSize: '11px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#A78BFA', fontWeight: '600', fontSize: '11px' }}>
           <Terminal size={13} />
           <span>{language.toUpperCase()}</span>
         </div>
-        <div style={{ display: 'flex', gap: '6px' }}>
+        <div style={{ display: 'flex', gap: '4px' }}>
           {onRun && (
             <button
               onClick={() => onRun(code, language)}
-              className="btn-primary"
+              className="btn btn-primary btn-sm"
               style={{ padding: '3px 8px', fontSize: '10px', height: '22px' }}
             >
               <Play size={10} />
@@ -49,11 +38,16 @@ export default function CodeBlock({ code, language = 'sql', onRun = null }) {
           )}
           <button
             onClick={handleCopy}
-            className="btn-secondary"
-            style={{ padding: '3px 8px', fontSize: '10px', height: '22px' }}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: '4px',
+              padding: '3px 8px', fontSize: '10px', height: '22px',
+              background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: '4px', color: '#A1A1AA', cursor: 'pointer',
+              fontFamily: 'inherit'
+            }}
             title="Copy Code"
           >
-            {copied ? <Check size={11} color="#10b981" /> : <Copy size={11} />}
+            {copied ? <Check size={11} color="#10B981" /> : <Copy size={11} />}
             {copied ? 'Copied' : 'Copy'}
           </button>
         </div>
@@ -65,16 +59,13 @@ export default function CodeBlock({ code, language = 'sql', onRun = null }) {
             {lines.map((line, idx) => (
               <tr key={idx}>
                 <td style={{
-                  userSelect: 'none',
-                  color: '#475569',
-                  textAlign: 'right',
-                  paddingRight: '12px',
-                  width: '28px',
-                  fontSize: '11px'
+                  userSelect: 'none', color: '#525266',
+                  textAlign: 'right', paddingRight: '14px',
+                  width: '28px', fontSize: '11px'
                 }}>
                   {idx + 1}
                 </td>
-                <td style={{ color: '#e2e8f0', whiteSpace: 'pre' }}>
+                <td style={{ color: '#CDD6F4', whiteSpace: 'pre', fontSize: '12.5px' }}>
                   {line}
                 </td>
               </tr>
