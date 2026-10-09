@@ -104,7 +104,7 @@ class ReportingService:
 <body>
     <div class="header">
         <h1>📊 Executive AI Data Intelligence Report</h1>
-        <p>Generated automatically on {datetime.now().strftime("%B %d, %Y at %I:%M %p")} | Powered by Antigravity AI Analyst</p>
+        <p>Generated automatically on {datetime.now().strftime("%B %d, %Y at %I:%M %p")} | Powered by Digital AI Analyst</p>
     </div>
 
     <div class="kpi-grid">

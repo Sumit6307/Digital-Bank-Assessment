@@ -1,4 +1,4 @@
-# 🚀 Antigravity AI Data Analyst — Production-Ready Enterprise Application
+# 🚀 Digital AI Data Analyst — Production-Ready Enterprise Application
 
 An end-to-end, production-ready AI Data Analyst that enables users to upload single or multiple CSV files, profile datasets, generate instant executive dashboards, ask natural language analytical questions, visualize data with dynamic charts, detect statistical anomalies with root-cause explainers, and run time-series forecasts.
 

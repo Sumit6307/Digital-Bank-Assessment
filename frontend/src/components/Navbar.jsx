@@ -44,7 +44,7 @@ export default function Navbar({
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <h1 style={{ fontSize: '17px', fontWeight: '800', letterSpacing: '-0.3px', color: '#ffffff' }}>
-              Antigravity AI Analyst
+              Digital AI Analyst
             </h1>
             <span className="badge badge-primary" style={{ fontSize: '9px', padding: '2px 7px' }}>
               Enterprise v2.0
