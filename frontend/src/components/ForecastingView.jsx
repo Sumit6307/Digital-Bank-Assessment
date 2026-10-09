@@ -3,6 +3,7 @@ import {
   TrendingUp, RefreshCw
 } from 'lucide-react';
 import { Line } from 'react-chartjs-2';
+import { api } from '../services/api';
 
 export default function ForecastingView({ overview }) {
   const [selectedTable, setSelectedTable] = useState('');
@@ -35,22 +36,13 @@ export default function ForecastingView({ overview }) {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('/api/forecast', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          table_name: selectedTable,
-          date_column: dateCol,
-          metric_column: metricCol,
-          horizon_periods: horizon,
-          frequency: frequency
-        })
+      const data = await api.getForecast({
+        table_name: selectedTable,
+        date_column: dateCol,
+        metric_column: metricCol,
+        horizon_periods: horizon,
+        frequency: frequency
       });
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.detail || 'Forecasting failed');
-      }
-      const data = await res.json();
       setForecastResult(data);
     } catch (e) {
       setError(e.message);

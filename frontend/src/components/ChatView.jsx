@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import DynamicChart from './DynamicChart';
 import CodeBlock from './CodeBlock';
+import { api } from '../services/api';
 
 export default function ChatView({ onRunInPlayground, overview }) {
   const [messages, setMessages] = useState([
@@ -70,21 +71,11 @@ export default function ChatView({ onRunInPlayground, overview }) {
         content: typeof m.content === 'string' ? m.content : m.content.answer
       }));
 
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: textToSend,
-          history: historyPayload
-        })
+      const data = await api.chat({
+        message: textToSend,
+        history: historyPayload
       });
 
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.detail || 'Analysis request failed');
-      }
-
-      const data = await res.json();
       setMessages(prev => [...prev, { role: 'assistant', content: data }]);
       // Open reasoning by default for new assistant response
       setOpenReasoningMap(prev => ({ ...prev, [messages.length + 1]: true }));

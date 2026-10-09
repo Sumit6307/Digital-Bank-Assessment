@@ -4,6 +4,7 @@ import {
   BarChart2, RefreshCw, CheckCircle2, AlertCircle, Copy, Check
 } from 'lucide-react';
 import DynamicChart from './DynamicChart';
+import { api } from '../services/api';
 
 export default function SQLPlaygroundView({ overview, initialCode = '', initialLang = 'sql' }) {
   const [lang, setLang] = useState(initialLang);
@@ -30,23 +31,11 @@ export default function SQLPlaygroundView({ overview, initialCode = '', initialL
 
     try {
       if (lang === 'sql') {
-        const res = await fetch('/api/query/sql', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ query: code, limit: 500 })
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.detail || 'SQL Query failed');
+        const data = await api.executeSql(code, 500);
         setResults(data.records);
         setDuration(data.execution_time_seconds);
       } else {
-        const res = await fetch('/api/query/python', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code })
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.detail || 'Python execution failed');
+        const data = await api.executePython(code);
         setResults(data.records);
         setStdout(data.stdout || '');
         setDuration(data.execution_time_seconds);

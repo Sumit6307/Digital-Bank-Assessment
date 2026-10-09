@@ -3,6 +3,7 @@ import {
   AlertOctagon, ShieldAlert, RefreshCw, 
   CheckCircle2, Search
 } from 'lucide-react';
+import { api } from '../services/api';
 
 export default function AnomalyHunterView({ overview }) {
   const [anomalyData, setAnomalyData] = useState(null);
@@ -17,8 +18,7 @@ export default function AnomalyHunterView({ overview }) {
     setLoading(true);
     try {
       const tbl = selectedTable || overview.tables[0].table_name;
-      const res = await fetch(`/api/anomalies?table_name=${tbl}&method=${method}&contamination=${contamination}`);
-      const data = await res.json();
+      const data = await api.getAnomalies(tbl, method, contamination);
       setAnomalyData(data);
     } catch (e) {
       console.error(e);

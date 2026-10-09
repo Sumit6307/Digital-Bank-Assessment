@@ -5,6 +5,7 @@ import {
   Sparkles, RefreshCw
 } from 'lucide-react';
 import DynamicChart from './DynamicChart';
+import { api } from '../services/api';
 
 export default function DashboardView({ overview, onNavigateToTab }) {
   const [dashboardData, setDashboardData] = useState(null);
@@ -14,9 +15,7 @@ export default function DashboardView({ overview, onNavigateToTab }) {
   const fetchDashboard = async (tbl = null) => {
     setLoading(true);
     try {
-      const url = tbl ? `/api/dashboard?table_name=${tbl}` : '/api/dashboard';
-      const res = await fetch(url);
-      const data = await res.json();
+      const data = await api.getDashboard(tbl);
       setDashboardData(data);
     } catch (e) {
       console.error(e);
