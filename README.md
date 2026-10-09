@@ -6,8 +6,8 @@ An end-to-end, production-grade AI Data Analyst enabling users to upload single 
 
 ## 🔗 Live Demo & Video Walkthrough
 
-
-- **🎥 Loom :** [Watch 3-Minute Video Walkthrough](https://www.youtube.com/watch?v=your-demo-video-id)
+- **🌐 Live Application URL:** [https://digital-ai-analyst.vercel.app/](https://digital-ai-analyst.vercel.app/)
+- **🎥 Loom Video Walkthrough:** [Watch 3-Minute Video Walkthrough](https://www.loom.com)
 
 ---
 
