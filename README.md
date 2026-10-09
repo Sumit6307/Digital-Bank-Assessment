@@ -4,6 +4,29 @@ An end-to-end, production-grade AI Data Analyst enabling users to upload single 
 
 ---
 
+## 🔗 Live Demo & Video Walkthrough
+
+
+- **🎥 Loom :** [Watch 3-Minute Video Walkthrough](https://www.youtube.com/watch?v=your-demo-video-id)
+
+---
+
+## 📸 Application Screenshots
+
+| 💬 AI Analyst & Reasoning Interface | 📈 Instant Executive Dashboard |
+| :---: | :---: |
+| ![AI Chat View](screenshots/ai_chat_view.png) | ![Executive Dashboard](screenshots/executive_dashboard.png) |
+
+| 🚨 Anomaly Hunter (Root-Cause Explanations) | 🔮 Time-Series Forecasting Studio |
+| :---: | :---: |
+| ![Anomaly Hunter](screenshots/anomaly_hunter.png) | ![Forecasting Studio](screenshots/forecasting_studio.png) |
+
+| 🛡️ Data Studio & Schema Quality | ⚡ SQL & Python Execution Playground |
+| :---: | :---: |
+| ![Data Studio](screenshots/data_studio.png) | ![SQL Playground](screenshots/sql_playground.png) |
+
+---
+
 ## 🏛️ System Architecture Diagram
 
 ```mermaid
